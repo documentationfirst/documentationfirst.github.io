@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Documentation-Driven Development — A manifesto for Human–AI collaborative software engineering." />
+  <meta property="og:title" content="Documentation-Driven Development" />
+  <meta property="og:description" content="A manifesto for Human–AI collaborative software engineering." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://www.documentationfirst.ai" />
+  <link rel="canonical" href="http://www.documentationfirst.ai" />
+  <title>Documentation Driven Development</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #3fb950;
+      --accent3: #f78166;
+      --code-bg: #1f2937;
+      --tag-bg: #1c2a3a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 100px 24px 80px;
+      background: linear-gradient(180deg, #0d1117 0%, #161b22 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero .badge {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span { color: var(--accent); }
+
+    .hero .subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    .hero .version {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #0d1117; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-child { border-bottom: none; }
+
+    h2 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      color: var(--text);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 8px;
+      margin-top: 28px;
+    }
+
+    p { margin-bottom: 16px; color: #c9d1d9; }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 16px 24px;
+      margin: 32px 0;
+      background: var(--surface);
+      border-radius: 0 8px 8px 0;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    /* ── CODE ── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 24px 0;
+      color: #e6edf3;
+    }
+
+    /* ── GRID CARDS ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      transition: border-color 0.15s;
+    }
+    .card:hover { border-color: var(--accent); }
+
+    .card .icon { font-size: 28px; margin-bottom: 12px; }
+    .card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+    .card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      color: #c9d1d9;
+    }
+    tr:hover td { background: #1c2128; }
+
+    /* ── CHECK LISTS ── */
+    .check-list { list-style: none; margin: 16px 0; }
+    .check-list li { padding: 6px 0; color: #c9d1d9; }
+    .check-list li::before { margin-right: 10px; }
+    .check-list.yes li::before { content: '✅'; }
+    .check-list.no li::before { content: '❌'; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    /* ══════════════════════════════════════════
+       STICKY TOC — FAB BUTTON
+    ══════════════════════════════════════════ */
+    @keyframes toc-shine {
+      0%   { left: -80%; }
+      60%  { left: 130%; }
+      100% { left: 130%; }
+    }
+
+    #toc-fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, #8ecf00, #2db80e 55%, #1a9a0a);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 900;
+      box-shadow: 0 0 8px 2px rgba(45,184,14,0.35), 0 4px 12px rgba(0,0,0,0.45);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s;
+    }
+    #toc-fab::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -80%;
+      width: 50%;
+      height: 140%;
+      background: linear-gradient(105deg, transparent 20%, rgba(230,255,120,0.45) 50%, transparent 80%);
+      animation: toc-shine 2.6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    #toc-fab.visible {
+      opacity: 0.75;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    #toc-fab:hover {
+      opacity: 1 !important;
+      box-shadow: 0 0 16px 5px rgba(45,184,14,0.55), 0 4px 20px rgba(0,0,0,0.6);
+    }
+    #toc-fab svg { width: 22px; height: 22px; position: relative; z-index: 1; }
+    #toc-fab-tooltip {
+      position: absolute;
+      right: 56px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    #toc-fab:hover #toc-fab-tooltip { opacity: 1; }
+
+    /* ══════════════════════════════════════════
+       STICKY TOC — BACKDROP
+    ══════════════════════════════════════════ */
+    #toc-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 910;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+    #toc-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+    /* ══════════════════════════════════════════
+       STICKY TOC — SIDEBAR DRAWER
+    ══════════════════════════════════════════ */
+    #toc-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      z-index: 920;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(300px);
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+    #toc-sidebar.open { transform: translateX(0); }
+    .toc-sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .toc-sidebar-header h3 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    #toc-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    #toc-close:hover { color: var(--text); }
+    .toc-sidebar-list { overflow-y: auto; flex: 1; padding: 12px 0; }
+    .toc-sidebar-list::-webkit-scrollbar { width: 4px; }
+    .toc-sidebar-list::-webkit-scrollbar-track { background: transparent; }
+    .toc-sidebar-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .toc-sidebar-list a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      border-left: 2px solid transparent;
+      transition: color 0.2s, padding-left 0.2s, background 0.15s;
+    }
+    .toc-sidebar-list a:hover {
+      color: var(--accent);
+      padding-left: 26px;
+      border-left-color: var(--accent);
+      background: rgba(88,166,255,0.05);
+    }
+    .toc-sidebar-list a .toc-num {
+      color: var(--accent);
+      font-size: 1.1em;
+      flex-shrink: 0;
+      width: 22px;
+    }
+
+    /* ══════════════════════════════════════════
+       MOBILE (< 768px) — full screen panel
+    ══════════════════════════════════════════ */
+    @media (max-width: 767px) {
+      #toc-fab { bottom: 16px; right: 16px; width: 44px; height: 44px; }
+      #toc-sidebar {
+        width: 100%;
+        height: 100dvh;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+      #toc-sidebar.open { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+<div class="hero">
+  <div class="badge">Manifesto — v1.0 — April 2026</div>
+  <h1><span>Documentation Driven</span><br> Development v2</h1>
+  <p class="subtitle">
+    A manifesto for Human–AI collaborative software engineering.
+  </p>
+  <div class="cta-group">
+    <a href="https://github.com/documentationfirst/manifesto/blob/main/README.md" class="btn btn-primary" target="_blank">
+      📄 Read the full manifesto
+    </a>
+    <a href="https://github.com/documentationfirst/manifesto" class="btn btn-secondary" target="_blank">
+      ⭐ Fork on GitHub
+    </a>
+  </div>
+  <p class="version">Open · Versionable · CC BY 4.0</p>
+</div>
+
+<!-- ══════════════════════════════ TABLE OF CONTENTS ══════════════════════════════ -->
+<section id="toc-section" style="background: var(--surface); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <h2 style="margin-bottom: 24px;">Table of Contents</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(9, auto); grid-auto-flow: column; gap: 4px 40px; font-size: 15px;">
+      <a href="#problem" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">①</span> The Problem</a>
+      <a href="#documental-engineering" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">②</span> Documental Engineering &amp; 3S Rule</a>
+      <a href="#loop" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">③</span> The DDD Loop</a>
+      <a href="#file-types" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">④</span> The DDD Document Types</a>
+      <a href="#preview-test" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑤</span> Preview &amp; Test Artefacts</a>
+      <a href="#skills" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑥</span> The Folders</a>
+      <a href="#harness" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑦</span> Harness &amp; Documental Engineering</a>
+      <a href="#reconstruction" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑧</span> The Reconstruction Guarantee</a>
+      <a href="#scientific-proof" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑨</span> Scientific Proof — Two Labs, One Thesis</a>
+      <a href="#gitagent" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑩</span> GitAgent Protocol &amp; Interoperability</a>
+      <a href="#superpowers" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑪</span> Four Superpowers</a>
+      <a href="#is-is-not" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑫</span> DDD Is / Is Not</a>
+      <a href="#knowledge-capital" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑬</span> DDD as Knowledge Capital</a>
+      <a href="#get-started" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑭</span> Getting Started</a>
+      <a href="#ide-first" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑮</span> The IDE-First Ecosystem</a>
+      <a href="#mcp-memory" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑯</span> MCP &amp; Contextual Memory</a>
+      <a href="#support" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑰</span> Support &amp; Certification</a>
+      <a href="#going-further" style="color:var(--muted);text-decoration:none;padding:4px 0;border-bottom:1px solid var(--border);"><span style="font-size:20px;margin-right:6px;">⑱</span> Going Further — The Ecosystem</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PROBLEM ══════════════════════════════ -->
+<section id="problem">
+  <div class="container">
+    <h2>The Problem</h2>
+    <p>
+      Modern AI coding agents are powerful — but <strong>stateless</strong>.
+      Every new session starts from zero. No context. No history. No conventions.
+    </p>
+    <p>
+      Without a persistent shared context, teams lose the reasoning behind decisions,
+      the migration history, the rules the AI should follow, and the ability to onboard
+      anyone — human or agent — quickly.
+    </p>
+    <blockquote>
+      "If it's not in a <code>.md</code> file, it doesn't exist."
+    </blockquote>
+    <p>
+      Traditional answers — better comments, wikis, Confluence — don't work.
+      They rot. They're invisible to AI. They're written after the fact.
+    </p>
+    <p>
+      <strong>Documentation-Driven Development</strong> makes documentation the
+      executable contract of the project — before, during, and instead of conversations.
+    </p>
+
+    <!-- ROOTS -->
+    <div style="
+      margin-top: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 24px 28px;
+    ">
+      <p style="color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;">Standing on the shoulders of giants</p>
+      <p style="margin-bottom: 8px;">
+        Documentation-Driven Development is not a new idea.
+        <a href="https://gist.github.com/zsup/9434452" target="_blank" style="color: var(--accent);">zsup defined it in 2014</a>:
+        <em>"Write the documentation before writing the code. If you can't explain it clearly, you don't understand it yet."</em>
+      </p>
+      <p style="margin-bottom: 0;">
+        This manifesto extends that foundation into the AI era.
+        DDD v1 was about writing docs <em>before</em> code — spec-first, human-to-human.
+        <strong>DDD v2 is about documentation as persistent, shared infrastructure</strong>
+        for teams that include AI agents as first-class contributors.
+      </p>
+      <p style="margin-top: 12px; font-style: italic; color: var(--text);">
+        In 2026, with AI agents in the loop, it's no longer optional. It's the missing infrastructure.
+        No longer an <strong>intern task</strong> — it's now your core <strong>architecture</strong>!
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ CONTEXT ENGINEERING ══════════════════════════════ -->
+<section id="documental-engineering">
+  <div class="container">
+    <h2>Documental Engineering</h2>
+    <p>
+      A new discipline is emerging in AI-assisted development: <strong>Context Engineering</strong> —
+      the practice of deliberately designing, structuring, and maintaining the information
+      an AI agent needs to perform at its best.
+    </p>
+    <p>
+      <strong>DDD <em>is</em> Documental Engineering</strong> — applied to software teams.
+    </p>
+    <p>
+      Where Context Engineering describes the <em>what</em> (give the AI the right context),
+      Documental Engineering describes the <em>how</em>:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Context Engineering concept</th><th>DDD implementation</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Persistent context across sessions</td><td>Versioned <code>.md</code> files committed in the repo</td></tr>
+        <tr><td>Structured knowledge base</td><td><code>.ai_context/</code> folder organized by domain</td></tr>
+        <tr><td>Role-specific information</td><td><code>specs-functional.md</code> (PO) vs <code>specs-technical.md</code> (dev)</td></tr>
+        <tr><td>Behavioral rules and constraints</td><td><code>best-practices.md</code> — always read first</td></tr>
+        <tr><td>Execution trace and auditability</td><td><code>DONE.md</code> — written by the AI after each task</td></tr>
+        <tr><td>Context scoping</td><td>One subfolder per feature, migration, or domain</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The key insight is that <strong>context is not a prompt — it is infrastructure</strong>.
+    </p>
+    <p>
+      A one-shot prompt disappears after the session. A well-structured <code>.ai_context/</code> folder
+      is permanent, versionable, shareable, and improvable. It turns ephemeral AI interactions into a
+      <strong>durable, compounding asset</strong> for the entire team.
+    </p>
+    <blockquote>
+      <em>Context Engineering asks: "what does the AI need to know?"</em><br>
+      <em>DDD answers: "Read the <code>.md</code> files."</em>
+    </blockquote>
+
+    <h3>The 3S Rule — What Makes a Good Context Document</h3>
+    <p>
+      A DDD context document is not just any Markdown file.
+      Every <code>.md</code> in <code>.ai_context/</code> must satisfy the <strong>3S Rule</strong>:
+    </p>
+    <table>
+      <thead>
+        <tr><th>3S</th><th>Principle</th><th>Meaning</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Selected</strong></td>
+          <td>Only what the agent needs</td>
+          <td>Don't dump everything — choose what is relevant. Noise kills context.</td>
+        </tr>
+        <tr>
+          <td><strong>Synthetic</strong></td>
+          <td>Summarised, not verbose</td>
+          <td>As short as possible while actionable. Distil, don't transcribe.</td>
+        </tr>
+        <tr>
+          <td><strong>Structured</strong></td>
+          <td>Formatted for AI consumption</td>
+          <td>Use headings, bullet points, tables, and code blocks. Structure is clarity.</td>
+        </tr>
+      </tbody>
+    </table>
+    <blockquote>
+      <em>A document that is Selected, Synthetic, and Structured is a document the agent can actually use.</em>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ LOOP ══════════════════════════════ -->
+<section id="loop">
+  <div class="container">
+    <h2>The DDD Loop</h2>
+    <p>Everyone is in the loop — and the <code>.md</code> files connect them all.</p>
+    <pre>
+Product Owner
+    │  defines specs and acceptance criteria in .md
+    ▼
+Developer
+    │  enriches .md with conventions, rules, constraints
+    ▼
+AI Agent
+    │  reads .md → executes → updates .md with what was done
+    ▼
+Developer / PO
+    │  reviews output → corrects .md → loops
+    └──────────────────────────────────────────────────────</pre>
+
+    <p>The <code>.md</code> files play four roles simultaneously:</p>
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>📋 <strong>Spec</strong></td><td>What we want to build</td></tr>
+        <tr><td>📜 <strong>Contract</strong></td><td>The rules every contributor must follow</td></tr>
+        <tr><td>📖 <strong>Journal</strong></td><td>What was done, why, and how</td></tr>
+        <tr><td>🔁 <strong>Reconstruction kit</strong></td><td>Everything needed to rebuild from scratch</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Steps as Mini-Retrospectives</h3>
+    <p>
+      Each step in <code>steps/</code> is not just a roadmap milestone — it is a <strong>living retrospective unit</strong>.
+      When a step closes, the agent appends a compact retrospective directly into the step file:
+      what was done, what remains, what blocked.
+      Stored in <code>dev-context.json</code> under <code>lastSession</code>, it gives the next session
+      instant continuity without reading the entire history.
+    </p>
+    <blockquote>
+      <em>Not a ceremony. Not a meeting. Three lines committed in Git — and the agent remembers everything.</em>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ FILE TYPES ══════════════════════════════ -->
+<section id="file-types">
+  <div class="container">
+    <h2>The DDD Document Types</h2>
+    <p>The <code>.ai_context/</code> folder organises documentation into eight distinct types, each with a clear owner and lifecycle:</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px;">
+      <div class="card">
+        <div class="icon">📜</div>
+        <h4>CONTRACT.md <span style="font-size:11px;color:var(--accent2);font-weight:400;">permanent</span></h4>
+        <p>The agent's interaction contract. Profile (strict / standard / permissive), permissions, communication rules. Written once at init. Never reset.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent2);">
+        <div class="icon">🌟</div>
+        <h4>vision.md <span style="font-size:11px;color:var(--accent2);font-weight:400;">permanent</span></h4>
+        <p>The product vision and epic goals. Written once at init. Never reset. The strategic north star for every context and every step.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent2);">
+        <div class="icon">🗺️</div>
+        <h4>steps/ <span style="font-size:11px;color:var(--accent2);font-weight:400;">permanent</span></h4>
+        <p>Roadmap phases and features — one file per milestone. Created at init, enriched over time. Never reset.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h4>CONTEXT.md <span style="font-size:11px;color:var(--muted);font-weight:400;">contextual</span></h4>
+        <p>The current unit of work: title, description, todo list. The agent reads this first. Reset on every new context.</p>
+      </div>
+      <div class="card">
+        <div class="icon">📋</div>
+        <h4>tasks/specification/ <span style="font-size:11px;color:var(--muted);font-weight:400;">PO-owned</span></h4>
+        <p>Functional specs: user stories, acceptance criteria, business rules. Reset on new context — except <code>permanent-*</code> files.</p>
+      </div>
+      <div class="card">
+        <div class="icon">⚙️</div>
+        <h4>tasks/technical/ <span style="font-size:11px;color:var(--muted);font-weight:400;">dev-owned</span></h4>
+        <p>Architecture decisions, API contracts, migration steps, constraints. Reset on new context — except <code>permanent-*</code> files.</p>
+      </div>
+      <div class="card">
+        <div class="icon">✅</div>
+        <h4>tasks/done/ <span style="font-size:11px;color:var(--muted);font-weight:400;">AI-written</span></h4>
+        <p>Execution reports written by the AI after each task: every change, every decision, every trade-off. Fully reset on new context. Git is the archive.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent);">
+        <div class="icon">🎓</div>
+        <h4>skills/ <span style="font-size:11px;color:var(--accent);font-weight:400;">permanent-* kept</span></h4>
+        <p>Reusable agent knowledge across all contexts: role, stack, conventions, architecture map. <code>permanent-*</code> files survive every context switch.</p>
+      </div>
+    </div>
+
+    <table style="margin-top: 32px;">
+      <thead>
+        <tr><th>Type</th><th>Owner</th><th>Lifecycle</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>CONTRACT.md</code></td><td>Dev (init)</td><td style="color:var(--accent2);">Permanent</td></tr>
+        <tr><td><code>vision.md</code></td><td>Dev (init)</td><td style="color:var(--accent2);">Permanent</td></tr>
+        <tr><td><code>steps/</code></td><td>Dev</td><td style="color:var(--accent2);">Permanent</td></tr>
+        <tr><td><code>CONTEXT.md</code></td><td>Dev</td><td>Reset on new context</td></tr>
+        <tr><td><code>tasks/specification/</code></td><td>PO</td><td>Reset (except <code>permanent-*</code>)</td></tr>
+        <tr><td><code>tasks/technical/</code></td><td>Dev</td><td>Reset (except <code>permanent-*</code>)</td></tr>
+        <tr><td><code>tasks/done/</code></td><td>AI</td><td>Fully reset</td></tr>
+        <tr><td><code>skills/</code></td><td>Dev</td><td style="color:var(--accent);">permanent-* kept, others reset</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ PREVIEW & TEST ARTEFACTS ══════════════════════════════ -->
+<section id="preview-test">
+  <div class="container">
+    <h2>Preview &amp; Test Artefacts</h2>
+    <p>
+      DDD specs are Markdown — but some tasks demand more than text. For UI work, the AI can generate
+      companion artefacts alongside the spec that make review faster and verification concrete.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px;">
+      <div class="card" style="border-color: var(--accent);">
+        <div class="icon">🖼️</div>
+        <h4><code>*-preview.html</code></h4>
+        <p>
+          A self-contained HTML rendering of the UI component or page described in the spec.
+          The AI generates it alongside the <code>.md</code> — the developer opens it in a browser
+          to validate the visual intent <strong>before writing a single line of production code</strong>.
+        </p>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px;">
+          Example: <code>tasks/specification/onboarding-wizard-preview.html</code>
+        </p>
+      </div>
+      <div class="card" style="border-color: var(--accent2);">
+        <div class="icon">🧪</div>
+        <h4><code>*-test.html</code></h4>
+        <p>
+          A lightweight test harness — also self-contained HTML — that the AI generates in
+          <code>tasks/done/</code> after implementation to demonstrate that key acceptance criteria pass.
+          No test framework required: open in browser, read the output.
+        </p>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px;">
+          Example: <code>tasks/done/onboarding-wizard-test.html</code>
+        </p>
+      </div>
+    </div>
+
+    <table style="margin-top: 32px;">
+      <thead>
+        <tr><th>Artefact</th><th>Location</th><th>Generated by</th><th>Purpose</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>spec-*.md</code></td><td><code>tasks/specification/</code></td><td>PO / Dev</td><td>Human-written intent</td></tr>
+        <tr><td><code>spec-*-preview.html</code></td><td><code>tasks/specification/</code></td><td>AI</td><td>Visual validation before coding</td></tr>
+        <tr><td><code>done-*.md</code></td><td><code>tasks/done/</code></td><td>AI</td><td>Execution report</td></tr>
+        <tr><td><code>done-*-test.html</code></td><td><code>tasks/done/</code></td><td>AI</td><td>Acceptance test runner</td></tr>
+      </tbody>
+    </table>
+
+    <blockquote style="margin-top: 32px;">
+      <em>The spec says what to build. The preview shows what it should look like. The test proves it works.<br>
+      All three are Markdown-adjacent, versioned in Git, reviewed by the developer.</em>
+    </blockquote>
+
+    <p style="margin-top:16px;">
+      The <code>permanent-</code> prefix applies here too: a <code>permanent-</code> preview or test file
+      survives context resets and serves as a living reference for the feature.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ SKILLS ══════════════════════════════ -->
+<section id="skills">
+  <div class="container">
+    <h2>The <code>skills/</code> Folder — Reusable Agent Knowledge</h2>
+    <p>
+      Beyond the context-specific documents (<code>tasks/specification/</code>, <code>tasks/technical/</code>, <code>tasks/done/</code>),
+      DDD introduces a dedicated folder for <strong>persistent, reusable knowledge</strong>:
+      the <code>skills/</code> folder.
+    </p>
+    <blockquote>
+      A <em>skill</em> is what the agent needs to know about <strong>how to work</strong> on this project —
+      independently of what to do right now.
+    </blockquote>
+
+    <p>While <code>tasks/</code> captures the <em>current context</em> (what to build, how it was done),
+      <code>skills/</code> captures the <em>stable knowledge</em> that applies across all contexts:</p>
+
+    <table>
+      <thead>
+        <tr><th>Folder</th><th>Contains</th><th>Lifecycle</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>tasks/specification/</code></td>
+          <td>Functional specs for the current context</td>
+          <td>Reset on new context (except <code>permanent-*</code>)</td>
+        </tr>
+        <tr>
+          <td><code>tasks/technical/</code></td>
+          <td>Technical decisions for the current context</td>
+          <td>Reset on new context (except <code>permanent-*</code>)</td>
+        </tr>
+        <tr>
+          <td><code>tasks/done/</code></td>
+          <td>Execution reports written by the AI</td>
+          <td>Fully reset on new context</td>
+        </tr>
+        <tr style="background: #12221a;">
+          <td><strong><code>skills/</code></strong></td>
+          <td><strong>Role, stack, conventions, domain expertise</strong></td>
+          <td><strong style="color: #3fb950;">Persists across all contexts (<code>permanent-*</code>)</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>What goes in a skill?</h3>
+    <p>A skill document typically defines:</p>
+    <div class="card-grid" style="margin-top: 16px; grid-template-columns: 1fr 1fr;">
+      <div class="card">
+        <div class="icon">🎭</div>
+        <h4>Role</h4>
+        <p>Who the agent should be. Senior dev, architect, PO-facing writer… Set the tone before writing a single line of code.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🛠️</div>
+        <h4>Stack & constraints</h4>
+        <p>Languages, frameworks, forbidden libraries, build tools. What exists. What must not be introduced.</p>
+      </div>
+      <div class="card">
+        <div class="icon">📐</div>
+        <h4>Conventions</h4>
+        <p>Naming, file structure, patterns to follow, patterns to avoid. The unwritten rules — now written.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🗺️</div>
+        <h4>Architecture map</h4>
+        <p>The shape of the codebase. Where things live. What touches what. How to navigate without getting lost.</p>
+      </div>
+    </div>
+
+    <h3>The <code>permanent-</code> convention</h3>
+    <p>
+      Any file prefixed with <code>permanent-</code> in <code>skills/</code> (or in <code>specification/</code> and <code>technical/</code>)
+      is <strong>preserved when switching to a new context</strong>. Everything else is reset.
+    </p>
+    <pre>
+skills/
+├── permanent-dev-typescript.md    ← survives all context switches
+├── permanent-architecture.md      ← survives all context switches
+└── onboarding-notes.md            ← reset on next context switch</pre>
+
+    <blockquote>
+      <em>Skills are the agent's memory of <strong>who it is on this project</strong>.
+      Documents are its memory of <strong>what it is doing right now</strong>.</em>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ HARNESS / DOCUMENTAL ENGINEERING ══════════════════════════════ -->
+<section id="harness">
+  <div class="container">
+    <h2>Harness, Memory, Context Engineering</h2>
+    <p>In DDD, these three concepts are not separate layers — they are the same thing, expressed differently.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 32px;">
+      <div class="card">
+        <div class="icon">🧠</div>
+        <h4>Memory = the <code>.md</code> files</h4>
+        <p>Not a database, not a chat history, not implicit model "memory". Every decision, convention, and trace lives in a versioned file — readable, editable, forkable. Explicit. Permanent.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🏗️</div>
+        <h4>Context = the documentation</h4>
+        <p>Not a prompt you write before each session — a structured folder that already exists, reflects the current truth of the project, and is maintained by the team across every context switch.</p>
+      </div>
+      <div class="card" style="border-color: var(--accent);">
+        <div class="icon">🔗</div>
+        <h4>Harnessing = done by context itself</h4>
+        <p>The <code>.ai_context/</code> folder doesn't just <em>inform</em> the agent — it <em>constrains</em> it. The agent knows its role, the rules, the history. It cannot drift. <strong>The context is the harness.</strong></p>
+      </div>
+    </div>
+
+    <blockquote style="margin-top: 32px;">
+      <em>You don't prompt your way to a reliable agent. You harness it — with documentation.</em>
+    </blockquote>
+
+    <h2 style="margin-top: 48px;">A New Approach: Documental Engineering</h2>
+    <p>
+      <strong>Documental Engineering</strong> is the practice of treating the document layer as the primary engineering artifact — not the code, not the model, not the prompt.
+    </p>
+    <p style="margin-top: 16px;">
+      The agent is a <strong>SEAL</strong> — a <em>Self-Evolving Agent Learning</em> system.
+      Not because its weights change, but because its harness does.
+      Every session adds to <code>done/</code>. Every correction sharpens a skill. Every new context builds on the accumulated knowledge of all previous ones.
+    </p>
+
+    <div class="card" style="margin-top: 24px; border-color: var(--accent2);">
+      <div class="icon">👻</div>
+      <h4>The ghost in the machine</h4>
+      <p>
+        Documental Engineering is the invisible infrastructure that makes the agent coherent, consistent, and trustworthy across every session.
+        It doesn't appear in the output. It doesn't show up in the diff.
+        But remove it — and the agent loses its memory, its identity, and its constraints in the very next session.
+      </p>
+    </div>
+
+    <blockquote style="margin-top: 32px;">
+      <em>Documentation is the constant. The harness is a context.</em>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ RECONSTRUCTION ══════════════════════════════ -->
+<section id="reconstruction">
+  <div class="container">
+    <h2>The Reconstruction Guarantee</h2>
+    <blockquote>
+      The project must be fully reconstructible from its <code>.md</code> files alone.
+    </blockquote>
+    <p>
+      If a new developer joins, or a new AI agent session starts, or the entire codebase is lost —
+      the <code>.md</code> files must contain enough information to:
+    </p>
+    <ul class="check-list yes">
+      <li>Understand the project's purpose and architecture</li>
+      <li>Know every rule and convention to follow</li>
+      <li>Reproduce every migration or refactoring step</li>
+      <li>Make correct decisions in ambiguous situations</li>
+    </ul>
+    <div class="divider"></div>
+
+    <!-- CASE STUDY -->
+    <div class="card" style="margin-top: 32px; border-color: #e8613a; box-shadow: 0 0 0 1px #e8613a33, 0 12px 40px -8px #e8613a66;">
+      <div class="icon">🕹️</div>
+      <h4 style="font-size: 1.05rem; margin-bottom: 12px;">
+        Real-world proof: <em>Legends of the Future Past</em> (1992)
+      </h4>
+      <p style="color: #c9d1d9; font-size: 15px; margin-bottom: 12px;">
+        <strong>Legends of the Future Past</strong> is a MUD (Multi-User Dungeon) that went offline and stayed dark for decades.
+        In 2026, it came back — not because someone had the original server code, but because the
+        <strong>structured text files describing the world</strong> had survived: zones, characters, rules, quests, lore.
+      </p>
+      <p style="color: #c9d1d9; font-size: 15px; margin-bottom: 12px;">
+        The executable was gone. The documentation was not. The game was rebuilt from its data files alone.
+      </p>
+      <p style="color: var(--muted); font-size: 14px; margin-bottom: 0;">
+        This is the ultimate demonstration of the Reconstruction Guarantee.
+        In software engineering, your <code>.md</code> files are those data files.
+        The codebase can be rewritten. The context — decisions, conventions, architecture — cannot be recovered if it was never written down.
+      </p>
+      <p style="margin-top: 16px; margin-bottom: 0;">
+        <a href="https://www.reddit.com/r/MUD/comments/1sexcyd/legends_of_future_past_1992_is_back_online/" target="_blank" style="color: var(--accent); font-size: 14px; text-decoration: none;">
+          → Read the story on Reddit ↗
+        </a>
+      </p>
+    </div>
+
+    <blockquote style="margin-top: 40px;">
+      <em>Code is temporary. Documentation is permanent.</em>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ SCIENTIFIC PROOF ══════════════════════════════ -->
+<section id="scientific-proof">
+  <div class="container">
+    <h2>Scientific Proof: Two Labs, One Thesis</h2>
+    <p>
+      Two independent research groups — Microsoft Research and Google DeepMind — have published
+      findings in 2026 that, taken together, provide a rigorous scientific foundation for DDD.
+      Neither paper mentions DDD. Both describe exactly what DDD implements.
+    </p>
+
+    <div class="card" style="margin-top: 24px; border-color: var(--accent3);">
+      <div class="icon">🔬</div>
+      <h4>Microsoft Research — "LLMs Corrupt Your Documents When You Delegate"</h4>
+      <p>
+        In April 2026, Philippe Laban, Tobias Schnabel and Jennifer Neville published
+        <strong>"LLMs Corrupt Your Documents When You Delegate."</strong>
+        Their DELEGATE-52 benchmark tested 19 models
+        across 52 documents and 20 interactions each.
+      </p>
+
+    <table>
+      <thead>
+        <tr><th>Condition</th><th>Degradation after 20 interactions</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Top-tier frontier models</td><td style="color:#f78166;font-weight:600;">~25% of content corrupted</td></tr>
+        <tr><td>Average across 19 models</td><td style="color:#f78166;font-weight:600;">~50% of content corrupted</td></tr>
+        <tr><td>At 100 interactions</td><td style="color:#f78166;">No plateau — monotonic decline</td></tr>
+        <tr><td>With agentic tool use</td><td style="color:#f78166;">+6% additional degradation</td></tr>
+        <tr style="background:#12221a;"><td><strong>Python code (verifiable domain)</strong></td><td style="color:#3fb950;font-weight:600;">98%+ accuracy — the only domain that held</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 24px;">
+      The corruption is <strong>silent</strong> — not gibberish, but small confident changes: a detail shifted,
+      a qualification dropped, an emphasis altered. Invisible on a quick scan. Compounding over time.
+    </p>
+
+    <blockquote>
+      <em>"When you delegate document maintenance to an LLM, the theory dies twice.
+      First: you didn't build the understanding, because you delegated.
+      Second: the LLM silently corrupted the artifact itself."</em><br>
+      <span style="font-size:0.85em;color:var(--muted);">— Christian Ekrem, connecting the research to Peter Naur's 1985 theory of programming</span>
+    </blockquote>
+
+    <h3>DDD's structural answer</h3>
+    <table>
+      <thead>
+        <tr><th>Risk (DELEGATE-52)</th><th>DDD architectural response</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>LLMs corrupt documents when asked to update them</td><td>The AI only <strong>adds new files</strong> in <code>done/</code> — never modifies existing docs</td></tr>
+        <tr><td>Errors compound over multiple interactions</td><td>Each context starts clean — <code>done/</code> is fully reset</td></tr>
+        <tr><td>Agentic setups make corruption worse</td><td>Developer <strong>reviews and commits</strong> every change — no silent writes</td></tr>
+        <tr><td>Short-term performance hides long-term decay</td><td>Git tracks every change — corruption is detectable and reversible</td></tr>
+        <tr><td>You lose both document and mental model</td><td><code>skills/permanent-*</code> are human-written, never AI-modified</td></tr>
+      </tbody>
+    </table>
+
+    <blockquote style="margin-top: 32px;">
+      <em>The documents are not the AI's to modify. They are the team's to maintain.<br>
+      The AI's job is to execute — and to report.</em>
+    </blockquote>
+
+    <div class="card" style="margin-top: 40px; border-color: var(--accent2);">
+      <div class="icon">🧬</div>
+      <h4>Google DeepMind — "Intelligent Delegation in Multi-Agent Systems" (2026, arXiv)</h4>
+      <p>
+        Researchers at Google DeepMind (Tomašev, Franklin, Osindero) argue that as AI agents
+        begin delegating tasks to other agents and to humans, <strong>formal systems for authority,
+        accountability and verification are required</strong> to prevent systemic risk.
+      </p>
+      <p style="margin-top: 12px;">Their five requirements for safe AI delegation:</p>
+      <ul class="check-list yes" style="margin-top: 8px;">
+        <li><strong>Dynamic capability assessment</strong> — continuously evaluate what the agent can do</li>
+        <li><strong>Adaptive task reassignment</strong> — re-delegate if performance degrades</li>
+        <li><strong>Structural transparency</strong> — monitoring and audit trails, including intermediate steps</li>
+        <li><strong>Verifiable task completion</strong> — proof that obligations were met</li>
+        <li><strong>Privilege attenuation</strong> — pass only minimum permissions when sub-delegating</li>
+      </ul>
+      <p style="margin-top: 16px;">
+        DDD already implements all five — not with a new infrastructure, but with existing primitives:
+      </p>
+      <table style="margin-top: 12px;">
+        <thead>
+          <tr><th>DeepMind requirement</th><th>DDD implementation</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Authority definition</td><td><code>CONTRACT.md</code> — strict / standard / permissive profile</td></tr>
+          <tr><td>Task assignment &amp; scope</td><td><code>dev-context.json</code> — title, description, todos, steps</td></tr>
+          <tr><td>Process-level monitoring</td><td><code>tasks/specification/</code> → spec validated before execution</td></tr>
+          <tr><td>Verifiable task completion</td><td><code>tasks/done/*.md</code> — execution report written by the AI</td></tr>
+          <tr><td>Audit trail</td><td>Git history — every change committed alongside its context</td></tr>
+          <tr><td>Human-in-the-loop for high-risk tasks</td><td>Developer reviews and commits — no silent writes</td></tr>
+          <tr><td>Privilege attenuation</td><td><code>CONTRACT.md</code> profile scopes agent permissions per project</td></tr>
+          <tr><td>Verifiable task completion (machine-level)</td><td><strong>Vouch</strong> — obligation IDs, evidence, release gate</td></tr>
+        </tbody>
+      </table>
+      <blockquote style="margin-top: 16px;">
+        <em>"Without verifiable delegation protocols, large-scale multi-agent systems in high-stakes domains
+        could amplify failures and obscure responsibility."</em><br>
+        <span style="font-size:0.85em;color:var(--muted);">— DeepMind, arXiv 2026</span>
+      </blockquote>
+      <p style="margin-top: 12px; color: var(--muted); font-size: 14px;">
+        The paper is conceptual (no benchmarks yet). But its framing of delegation as a
+        <em>governance and risk-management challenge</em> — not a prompt-engineering problem —
+        maps precisely onto what DDD practitioners already know from practice.
+      </p>
+    </div>
+
+    <div style="margin-top: 32px; padding: 20px 24px; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent2); border-radius: 0 8px 8px 0;">
+      <p style="font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent2); font-weight: 700; margin-bottom: 10px;">Two labs. One conclusion.</p>
+      <p style="font-size: 1.05rem; font-style: italic;">
+        Microsoft Research proves that delegating document maintenance to AI corrupts the artifact.<br>
+        Google DeepMind proves that delegating tasks to AI without formal authority and accountability creates systemic risk.<br><br>
+        DDD's answer to both: <strong>humans write the context, humans assign the task, humans review the output, Git tracks everything.</strong>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ GITAGENT PROTOCOL ══════════════════════════════ -->
+<section id="gitagent">
+  <div class="container">
+    <h2>GitAgent Protocol &amp; The Markdown Question</h2>
+    <p>
+      DDD does not exist in isolation. Two emerging reference points confirm and sharpen its approach
+      from different angles.
+    </p>
+
+    <div class="card" style="margin-top: 24px; border-color: var(--accent);">
+      <div class="icon">🔗</div>
+      <h4>The GitAgent Protocol — <a href="https://github.com/open-gitagent/gitagent-protocol" target="_blank" style="color:var(--accent);font-weight:400;font-size:14px;">open-gitagent/gitagent-protocol ↗</a></h4>
+      <p>
+        The GitAgent Protocol formalises how AI agents interact with Git repositories:
+        structured file conventions, agent manifests, and task coordination through versioned files.
+        The core premise mirrors DDD exactly — <strong>Git is not just version control, it is the communication bus between agents and humans</strong>.
+      </p>
+      <p style="margin-top:12px;">
+        Where GitAgent Protocol defines the machine-readable layer (agent manifests, structured metadata),
+        DDD provides the human-readable layer: the <code>.md</code> files that describe intent, conventions,
+        and decisions in a form that both humans and agents can read, write, and reason about.
+      </p>
+      <p style="margin-top:12px;color:var(--muted);font-size:14px;">
+        DDD and GitAgent Protocol are complementary: DDD is the discipline, GitAgent is a formalisation
+        of the protocol beneath it. A DDD repository is a natural GitAgent-compatible workspace.
+      </p>
+    </div>
+
+    <div class="card" style="margin-top: 16px; border-color: var(--accent3);">
+      <div class="icon">⚠️</div>
+      <h4>"Markdown Was a Mistake for Agent Output" — <a href="https://medium.com/@rentierdigital/markdown-was-a-mistake-for-agent-output-a-claude-code-engineer-just-proved-it-454b78971cc4" target="_blank" style="color:var(--accent3);font-weight:400;font-size:14px;">Medium ↗</a></h4>
+      <p>
+        This article argues that Markdown as <em>AI output format</em> is problematic: agents generate
+        Markdown for chat interfaces where it renders as prose, creating an illusion of structure
+        that collapses the moment you try to parse, verify, or act on it programmatically.
+      </p>
+      <p style="margin-top:12px;">
+        <strong>DDD's position is the inverse — and it matters to understand why.</strong>
+        In DDD, Markdown is not agent <em>output</em>. It is human <em>input</em>.
+        Developers and POs write the <code>.md</code> files. The agent <em>reads</em> them.
+        The agent's output in <code>done/</code> is explicitly reviewed and committed by a human
+        before it enters the context.
+      </p>
+      <table style="margin-top:16px;">
+        <thead>
+          <tr><th>Pattern</th><th>Who writes</th><th>Who reads</th><th>Problem?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>AI chat output as Markdown</td><td>Agent</td><td>Human (in chat)</td><td style="color:var(--accent3);">Yes — unstructured, unparseable, volatile</td></tr>
+          <tr style="background:#12221a;"><td>DDD context files (<code>.ai_context/</code>)</td><td>Human</td><td>Agent</td><td style="color:var(--accent2);">No — human-authored, structured, versioned</td></tr>
+          <tr><td>DDD <code>done/</code> reports</td><td>Agent</td><td>Human + Agent</td><td style="color:var(--accent);">Reviewed — human commits what matters</td></tr>
+        </tbody>
+      </table>
+      <blockquote style="margin-top:16px;">
+        <em>The problem is not Markdown. The problem is who writes it, and whether it is reviewed.<br>
+        DDD solves both: humans write the context, humans review the output.</em>
+      </blockquote>
+    </div>
+    <div class="card" style="margin-top: 16px; border-color: var(--accent2);">
+      <div class="icon">🔒</div>
+      <h4>Vouch — "A compiler for release contracts" — <a href="https://github.com/duriantaco/vouch" target="_blank" style="color:var(--accent2);font-weight:400;font-size:14px;">duriantaco/vouch ↗</a></h4>
+      <p>
+        Vouch takes human-owned intent (YAML) and compiles it into typed obligation IDs, runs evidence collection
+        (tests, SARIF, audit logs), and operates a release gate: <strong>block | escalate | canary | auto_merge</strong>.
+      </p>
+      <p style="margin-top:12px;">
+        Their positioning: <em>"Use Vouch when a risky AI-authored change needs more than 'CI passed.'"</em>
+      </p>
+      <p style="margin-top:12px;">
+        That sentence describes exactly the end of every DDD task cycle. DDD and Vouch are complementary layers
+        of the same pipeline:
+      </p>
+      <pre style="margin-top:12px;background:var(--code-bg);padding:12px 16px;border-radius:6px;font-size:13px;overflow:auto;">DDD spec (.md)  →  Agent reads  →  Agent executes
+    → done/*.md + code changes
+        → Vouch compiles obligations
+            → evidence (tests, SARIF, audit)
+                → gate: block | escalate | auto_merge</pre>
+      <table style="margin-top:16px;">
+        <thead>
+          <tr><th>Layer</th><th>Tool</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Input harness</td><td><strong>DDD <code>.ai_context/</code></strong></td><td>Structures what the agent reads and how it works</td></tr>
+          <tr style="background:#12221a;"><td>Output gate</td><td><strong>Vouch</strong></td><td>Verifies what the agent produced, with obligation IDs</td></tr>
+        </tbody>
+      </table>
+      <blockquote style="margin-top:16px;">
+        <em>DDD is the context contract — the input.<br>
+        Vouch is the release contract — the output gate.<br>
+        Together: a fully auditable, human-owned, machine-verifiable AI development pipeline.</em>
+      </blockquote>
+    </div>
+  </div>
+</section>
+<section id="superpowers">
+  <div class="container">
+    <h2>Four Superpowers</h2>
+
+    <h3>🌐 Language Agnostic</h3>
+    <p>
+      DDD is not tied to any language, framework, or toolchain. The <code>.md</code> files describe
+      <em>intent</em>, <em>rules</em>, and <em>context</em> — not syntax. The same approach works
+      whether your stack is Angular, React, Spring Boot, Django, Rust, or anything else.
+    </p>
+    <p>
+      When you migrate from one framework to another, the documentation survives the migration.
+      Only the code changes.
+    </p>
+    <blockquote>
+      Your <code>.md</code> files will still be valid the day you switch to a framework that doesn't exist yet.
+    </blockquote>
+
+    <h3>📦 Fully Portable</h3>
+    <p>
+      Plain Markdown, committed alongside the code — infinitely portable:
+    </p>
+    <ul class="check-list yes">
+      <li>Move from GitHub to GitLab? The docs follow.</li>
+      <li>Switch AI agents (Copilot → Claude → local model)? The docs follow.</li>
+      <li>Onboard a new dev or a new agent? Hand them the <code>.ai_context/</code> folder.</li>
+      <li>Fork the project? The entire context forks with it.</li>
+    </ul>
+    <p>No vendor lock-in. No proprietary format. No special tooling required.</p>
+
+    <h3>🤖 Agent Agnostic</h3>
+    <p>
+      DDD does not care which AI agent sits in your IDE. It works with any agent that can read a file.
+    </p>
+    <p>
+      All you need is a <strong>high-IQ, adaptive, and comprehensive AI agent</strong> with a clear view
+      of the project in an instant. Not an inflexible corporate co-worker who has attended every
+      stand-up and memorised every meeting memo.
+    </p>
+    <blockquote>
+      Any agent is expandable.
+    </blockquote>
+
+    <h3>🔄 Contextual Adaptation</h3>
+    <p>
+      DDD documentation is <strong>living documentation</strong> — it evolves with the project.
+      Every correction makes the next AI session smarter:
+    </p>
+    <table>
+      <thead>
+        <tr><th>Event</th><th>DDD Response</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>New framework version</td><td>Update <code>migration-xxx.md</code>, execute, update <code>MIGRATION_DONE.md</code></td></tr>
+        <tr><td>Convention changed</td><td>Update <code>best-practices.md</code>, commit</td></tr>
+        <tr><td>New architectural constraint</td><td>Add entry in <code>docs/</code>, reference it in <code>best-practices.md</code></td></tr>
+        <tr><td>AI produced something wrong</td><td>Correct the <code>.md</code>, re-run — the error won't happen again</td></tr>
+      </tbody>
+    </table>
+    <blockquote>Every session improves the next one.</blockquote>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ IS / IS NOT ══════════════════════════════ -->
+<section id="is-is-not">
+  <div class="container">
+    <h2>DDD Is Not / DDD Is</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+      <div>
+        <h3 style="color: var(--accent3);">DDD is NOT</h3>
+        <ul class="check-list no">
+          <li>A replacement for code comments</li>
+          <li>A wiki that nobody maintains</li>
+          <li>A one-time README</li>
+          <li>An AI-only practice</li>
+          <li>Generating docs from code</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="color: var(--accent2);">DDD IS</h3>
+        <ul class="check-list yes">
+          <li>A living contract between all contributors</li>
+          <li>A forcing function for clarity</li>
+          <li>The answer to AI agent statelessness</li>
+          <li>For any language, framework, team size</li>
+          <li>Compatible with any AI coding agent</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ KNOWLEDGE CAPITAL ══════════════════════════════ -->
+<section id="knowledge-capital">
+  <div class="container">
+    <h2>DDD as Knowledge Capital</h2>
+    <p>
+      In traditional software engineering, the intellectual property of a project lives in its code.
+      In DDD, this assumption is inverted.
+    </p>
+    <blockquote>
+      <strong>The real intellectual property is the documentation.</strong>
+    </blockquote>
+    <p>
+      The code is an artifact — a snapshot of one implementation, in one language, at one point in time.
+      It can be rewritten, refactored, or replaced entirely. It frequently is.
+    </p>
+    <p>The <code>.md</code> files encode something the code never can:</p>
+    <ul class="check-list yes">
+      <li><strong>Why</strong> decisions were made — not just what was decided</li>
+      <li><strong>What was tried and failed</strong> — and why it failed</li>
+      <li><strong>The constraints</strong> that shaped every architectural choice</li>
+      <li><strong>The domain knowledge</strong> accumulated over months or years</li>
+      <li><strong>The conventions</strong> that make the codebase coherent</li>
+    </ul>
+    <p>
+      This is <strong>Knowledge Capital</strong> — the compounding intellectual asset of the team.
+      It grows with every session, every correction, every new <code>.md</code> entry.
+      Unlike code, it does not become legacy. It becomes richer.
+    </p>
+    <blockquote>
+      A team that loses its codebase can rebuild.<br>
+      A team that loses its Knowledge Capital starts from zero.
+    </blockquote>
+
+    <div class="divider"></div>
+
+    <!-- CALL FOR LICENSE -->
+    <div style="
+      margin-top: 32px;
+      background: #12101a;
+      border: 1px solid #a855f7;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 0 0 1px #a855f722, 0 12px 48px -8px #a855f755;
+    ">
+      <div style="font-size: 28px; margin-bottom: 12px;">⚖️</div>
+      <h2 style="margin-bottom: 20px; color: #c084fc; font-size: 1.5rem;">A Call for a New Kind of License</h2>
+      <p>
+        Current open-source licenses — MIT, Apache, GPL, CC BY — were designed for <strong>artifacts</strong>:
+        files that exist at a point in time. DDD documentation is not an artifact.
+        It is a <strong>living, compounding context</strong> — closer to a methodology, a knowledge base,
+        and a collaborative memory than a static file.
+      </p>
+      <p>We propose the concept of a <strong style="color: #c084fc;">Living Knowledge License</strong>:</p>
+      <table style="margin: 20px 0;">
+        <thead>
+          <tr><th>Traditional license assumes…</th><th>Living Knowledge License assumes…</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>The value is in the artifact</td><td>The value is in the accumulated context</td></tr>
+          <tr><td>A copy is equivalent to the original</td><td>A fork diverges and must be maintained separately</td></tr>
+          <tr><td>Authorship is a moment in time</td><td>Authorship is a continuous, multi-agent contribution</td></tr>
+          <tr><td>The license governs distribution</td><td>The license governs contribution, attribution, and evolution</td></tr>
+        </tbody>
+      </table>
+      <p>
+        This is not a formal legal license — yet. It is a call for the open-source community to recognize
+        that <strong>AI-assisted, documentation-driven projects represent a new category of intellectual property</strong>
+        that existing licenses were not designed to protect or govern.
+      </p>
+      <p style="color: #c084fc; font-weight: 600; margin-bottom: 8px;">Open questions for the community</p>
+      <ul style="list-style: none; margin: 0 0 24px; padding: 0;">
+        <li style="padding: 5px 0; color: #c9d1d9;">❓ Who owns the Knowledge Capital when an AI agent contributes to it?</li>
+        <li style="padding: 5px 0; color: #c9d1d9;">❓ How should attribution work when a <code>.md</code> is co-authored by a dev, a PO, and an AI?</li>
+        <li style="padding: 5px 0; color: #c9d1d9;">❓ What are the obligations of a fork that builds on accumulated DDD context?</li>
+        <li style="padding: 5px 0; color: #c9d1d9;">❓ How do we license a methodology — not just its output?</li>
+      </ul>
+      <blockquote style="border-left-color: #a855f7; margin: 0;">
+        The code belongs to the license.<br>
+        The context belongs to the team.<br>
+        <strong>We need a license that understands the difference.</strong>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ GET STARTED ══════════════════════════════ -->
+<section id="get-started">
+  <div class="container">
+    <h2>Getting Started</h2>
+
+    <h3>Step 1 — Create the folder structure</h3>
+    <p>Organize documentation by context, each in its own versioned subfolder:</p>
+    <pre>
+.ai_context/
+├── README.md                  ← project overview for the agent (permanent)
+├── CONTRACT.md                ← agent interaction rules (permanent)
+├── CONTEXT.md                 ← current context: title, description, todo list
+├── dev-context.json           ← machine-readable context metadata
+├── vision.md                  ← product vision and epic goals (permanent)
+├── history.json               ← past contexts journal (JSON Lines, permanent)
+├── steps/                     ← roadmap phases and features (permanent)
+│   └── phase1-core.md             ← milestone description
+├── skills/                    ← reusable agent knowledge (permanent-* kept)
+│   ├── permanent-dev-stack.md     ← role, stack, conventions
+│   └── permanent-architecture.md ← codebase map
+└── tasks/
+    ├── done/              ← AI execution reports (reset on new context)
+    ├── specification/     ← functional specs (permanent-* kept)
+    └── technical/         ← technical decisions (permanent-* kept)</pre>
+
+    <h3>Step 2 — Write the functional specifications</h3>
+    <p>
+      In each feature subfolder, create a <code>specs-functional.md</code>.
+      This is <strong>PO territory</strong> — written in business language, no code:
+      user stories, acceptance criteria, business rules, edge cases, links to mockups.
+    </p>
+
+    <h3>Step 3 — Write the technical specifications</h3>
+    <p>
+      In the same subfolder, create a <code>specs-technical.md</code>.
+      This is <strong>dev territory</strong>:
+      architecture decisions, API contracts, data models, component structure,
+      dependencies, constraints, references to <code>docs/*.md</code>.
+    </p>
+
+    <h3>Step 4 — Write <code>best-practices.md</code></h3>
+    <p>
+      Global rules the AI <strong>must</strong> follow on every task — naming conventions,
+      coding patterns, what to avoid, which libraries to use. This file is always read first.
+    </p>
+
+    <h3>Step 5 — Prompt as a User Story or ticket</h3>
+    <p>
+      Frame your prompt exactly like a <strong>Jira / Linear / GitHub issue — or a personal note</strong>.
+      The format doesn't matter. What matters is that the prompt <em>references</em> the <code>.md</code> files:
+    </p>
+    <pre>
+As a [role], I want [feature] so that [outcome].
+
+Acceptance criteria:
+- [ ] ...
+- [ ] ...
+
+Technical context: see .ai_context/features/authentication/specs-technical.md
+Rules to follow:   see .ai_context/best-practices.md</pre>
+
+    <h3>Step 6 — Let the AI execute and report</h3>
+    <p>Ask the AI agent to:</p>
+    <ul class="check-list yes">
+      <li>Read the relevant <code>specs-functional.md</code> and <code>specs-technical.md</code></li>
+      <li>Execute the task following <code>best-practices.md</code></li>
+      <li>Write or update the <code>DONE.md</code> with every change, decision, and trade-off</li>
+    </ul>
+
+    <h3>Step 7 — Commit everything</h3>
+    <p>Commit <code>.md</code> files alongside the code. Every commit is a versioned snapshot of both the code <em>and</em> its context:</p>
+    <pre>
+feat(auth): implement login flow
+
+See .ai_context/features/authentication/DONE.md for full execution report.</pre>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ IDE-FIRST ECOSYSTEM ══════════════════════════════ -->
+<section id="ide-first">
+  <div class="container">
+    <h2>The IDE-First Ecosystem</h2>
+    <p style="max-width: 700px; margin-bottom: 32px;">
+      DDD's primary interface is <strong>your IDE and its built-in AI agent</strong> — not a chat window, not an external platform.
+      The <code>.md</code> files live in the repo. The AI agent lives in the IDE. The developer stays in flow.
+    </p>
+
+    <pre style="margin-bottom: 40px;">
+.ai_context/  (in repo)
+      │
+      ▼  attached / referenced by the developer
+IDE Agent  (Copilot · JetBrains AI · Cursor · Windsurf…)
+      │
+      ▼  reads context → executes → updates .md
+Code  +  updated DONE.md
+      │
+      ▼  reviewed and committed by the developer
+Git — versioned snapshot of code AND context</pre>
+
+    <p style="color: var(--muted); margin-bottom: 48px;">
+      This is a <strong style="color: var(--text);">local, zero-dependency, agent-agnostic workflow</strong> that works with any IDE and any AI agent — today, without any additional tooling.
+      MCP and external context servers are valid extensions for advanced use cases, but they are not required.
+    </p>
+
+    <h2 style="margin-bottom: 8px;">DDD Tooling Roadmap</h2>
+    <p style="color: var(--muted); margin-bottom: 36px;">
+      DDD works today with any IDE. The next step is native IDE support — plugins that make DDD a first-class citizen of the development environment.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+
+      <!-- JetBrains Plugin -->
+      <div class="card" style="border-color: #f78166;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+          <span style="font-size: 28px;">🧠</span>
+          <h4 style="margin: 0; color: #f78166;">JetBrains Plugin</h4>
+        </div>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;">IntelliJ · WebStorm · Rider…</p>
+        <ul style="list-style: none; padding: 0; margin: 12px 0 0;">
+          <li style="padding: 4px 0; font-size: 14px;">✦ Auto-detects <code>.ai_context/</code> in the project</li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ Templates by language/framework at project init</li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ Injects <code>.md</code> files into the JetBrains AI context automatically</li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ UI panel to create, browse, and edit DDD files</li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ "DDD Ready" badge in the project tree</li>
+        </ul>
+      </div>
+
+      <!-- VSCode / Cursor Plugin -->
+      <div class="card" style="border-color: #58a6ff;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+          <span style="font-size: 28px;">🔵</span>
+          <h4 style="margin: 0; color: #58a6ff;">VSCode / Cursor / Windsurf</h4>
+        </div>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;">Copilot · Cursor · Continue · Cline…</p>
+        <ul style="list-style: none; padding: 0; margin: 12px 0 0;">
+          <li style="padding: 4px 0; font-size: 14px;">✦ Same auto-detection and template system</li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ Generates <code>.cursorrules</code>, <code>CLAUDE.md</code>, <code>COPILOT_INSTRUCTIONS.md</code> from <code>best-practices.md</code></li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ Compatible with all major AI extensions</li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ Command palette: <code>DDD: New feature context</code></li>
+          <li style="padding: 4px 0; font-size: 14px;">✦ <code>DDD: New migration plan</code> · <code>DDD: View DONE.md</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Comparison table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Approach</th>
+          <th>Context delivery</th>
+          <th>Session persistence</th>
+          <th>Vendor lock-in</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Copy-paste to chat</td>
+          <td>Manual, per session</td>
+          <td>None</td>
+          <td style="color: #f78166;">High</td>
+        </tr>
+        <tr>
+          <td>MCP server</td>
+          <td>Automated, external</td>
+          <td>Partial</td>
+          <td style="color: #e3b341;">Medium</td>
+        </tr>
+        <tr style="background: #12221a;">
+          <td><strong>DDD + IDE plugin</strong></td>
+          <td><strong style="color: #3fb950;">Automated, local</strong></td>
+          <td><strong style="color: #3fb950;">Full (committed)</strong></td>
+          <td><strong style="color: #3fb950;">None</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 24px; color: var(--muted); font-size: 14px;">
+      The plugin eliminates the only remaining friction in DDD: manually attaching files to the agent context.
+      With the plugin, <strong style="color: var(--text);">the context is always ready — because it lives in the repo.</strong>
+    </p>
+
+    <!-- Future Insights -->
+    <div style="
+      margin-top: 48px;
+      background: #12101a;
+      border: 1px solid #a855f744;
+      border-left: 4px solid #a855f7;
+      border-radius: 10px;
+      padding: 28px 32px;
+    ">
+      <p style="font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: #a855f7; font-weight: 700; margin-bottom: 14px;">🔭 What's Next — Conversation-to-Document</p>
+      <p style="margin-bottom: 16px;">
+        The DDD loop still has one blind spot: <strong>the conversation itself</strong>.
+        Every session with an AI agent produces decisions, discoveries, and trade-offs.
+        Today, they vanish when the session closes.
+      </p>
+      <p style="margin-bottom: 16px;">
+        The next plugin feature: <strong>read the current conversation and propose a structured <code>.md</code> draft</strong> —
+        extracted decisions, new rules, execution notes — that the developer reviews, adjusts, and commits.
+      </p>
+      <table style="margin: 0;">
+        <thead>
+          <tr><th>Principle</th><th>Rationale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Extract, don't dump</strong></td><td>A raw transcript is noise. Only what deserves to be permanent is proposed.</td></tr>
+          <tr><td><strong>Propose, don't auto-commit</strong></td><td>The human validates what enters the <code>.md</code>. No silent writes.</td></tr>
+          <tr><td><strong><code>.md</code> first, not vector memory</strong></td><td>The output is editable Markdown — versionable, auditable, agent-readable.</td></tr>
+        </tbody>
+      </table>
+      <blockquote style="margin-top: 20px; margin-bottom: 0; border-left-color: #a855f7;">
+        <em>The conversation is the raw material. The plugin proposes. The developer decides what becomes documentation.</em>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ MCP & MEMORY ══════════════════════════════ -->
+<section id="mcp-memory">
+  <div class="container">
+    <h2>DDD, MCP & Contextual Memory</h2>
+    <p style="max-width: 700px; margin-bottom: 40px;">
+      Two technologies are often mentioned alongside DDD: <strong>MCP</strong> (Model Context Protocol) and <strong>contextual memory tools</strong>.
+      Here's how they relate — and when they matter.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 48px;">
+      <div class="card" style="border-color: #58a6ff;">
+        <div class="icon">📄</div>
+        <h4 style="color: #58a6ff;">DDD</h4>
+        <p style="font-size: 14px; color: var(--muted);">The content layer. Structured, versioned, explicit knowledge — committed in Git alongside the code.</p>
+        <p style="font-size: 13px; margin-top: 10px;">✅ Works everywhere<br>✅ Versionable<br>✅ Team-wide<br>✅ Auditable</p>
+      </div>
+      <div class="card" style="border-color: #3fb950;">
+        <div class="icon">🔌</div>
+        <h4 style="color: #3fb950;">MCP</h4>
+        <p style="font-size: 14px; color: var(--muted);">The transport layer. Automates injection of your <code>.ai_context/</code> into the agent — no manual attachment needed.</p>
+        <p style="font-size: 13px; margin-top: 10px;">✅ Multi-agent setups<br>✅ Shared team context<br>⚠️ Requires infrastructure<br>⚠️ Not needed for solo dev</p>
+      </div>
+      <div class="card" style="border-color: #8b949e;">
+        <div class="icon">🧠</div>
+        <h4 style="color: #8b949e;">Memory Tools</h4>
+        <p style="font-size: 14px; color: var(--muted);">Mem0, Zep, Memoir… Versioned or implicit memory stored outside Git.</p>
+        <p style="font-size: 13px; margin-top: 10px;">⚠️ Requires infrastructure<br>⚠️ Agent-written (corruption risk)<br>⚠️ Incompatible with Copilot<br>⚠️ Marginal value with DDD</p>
+      </div>
+    </div>
+
+    <!-- MEMOIR CALLOUT -->
+    <div class="card" style="border-color: var(--accent); margin-bottom: 32px;">
+      <div class="icon">🔖</div>
+      <h4>Case study: <a href="https://memoir-ai.dev" target="_blank" style="color:var(--accent);font-weight:400;">Memoir</a> — "Git for AI Memory"</h4>
+      <p>
+        Memoir is a high-performance semantic memory system for AI agents that replaces opaque vector databases
+        with <strong>Git-like versioned memory</strong>: branch, commit, merge, rollback, cryptographic integrity,
+        semantic paths instead of UUID keys.
+      </p>
+      <p style="margin-top: 12px;">Their core diagnosis is our thesis, word for word:</p>
+      <blockquote style="margin: 12px 0;">
+        <em>"AI memory is a global variable anti-pattern. Your agent's memory is code without version control.
+        One bad session poisons every future retrieval."</em>
+      </blockquote>
+      <p>
+        The fact that Memoir had to build "Git for AI memory" to solve memory drift
+        is the strongest possible confirmation that <strong>the right mental model for agent memory
+        is version control</strong>. DDD practitioners just skipped the infrastructure
+        and used the one that already exists.
+      </p>
+      <table style="margin-top: 16px;">
+        <thead>
+          <tr><th>Dimension</th><th>Memoir</th><th>DDD</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Versioning</td><td>Cryptographic, semantic paths</td><td style="color:var(--accent2);">Plain Git</td></tr>
+          <tr><td>Authorship</td><td>Agent-written, auto-aggregated</td><td style="color:var(--accent2);"><strong>Human-written, human-reviewed</strong></td></tr>
+          <tr><td>Portability</td><td>memoir-ai.dev infrastructure</td><td style="color:var(--accent2);">Zero — any Git repo</td></tr>
+          <tr><td>Agent compatibility</td><td>memoir-compatible agents only</td><td style="color:var(--accent2);">Any agent that can read a file</td></tr>
+          <tr><td>Corruption risk</td><td>Mitigated by rollback</td><td style="color:var(--accent2);">Prevented by human review gate</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="
+      background: #12101a;
+      border: 1px solid #58a6ff44;
+      border-left: 4px solid #58a6ff;
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-bottom: 40px;
+    ">
+      <p style="font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: #58a6ff; font-weight: 700; margin-bottom: 10px;">🧪 Working Hypothesis</p>
+      <p style="font-size: 1.05rem; font-style: italic; margin-bottom: 0;">
+        If you practice DDD correctly, you don't need a contextual memory layer.
+        A well-maintained <code>.ai_context/</code> folder is a strictly superior alternative:
+        explicit, versionable, auditable, and infrastructure-free.
+      </p>
+    </div>
+
+    <p style="font-size: 15px; margin-bottom: 12px;">Apply this test before reaching for a memory tool:</p>
+    <blockquote>
+      <em>If it's important enough for the agent to remember, it's important enough to be in a <code>.md</code> file.</em>
+    </blockquote>
+
+    <table style="margin-top: 36px;">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>DDD (<code>.ai_context/</code>)</th>
+          <th>Memoir (versioned memory)</th>
+          <th>Memory tools (Mem0, Zep…)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>What is stored</td><td>Structured rules, specs, decisions</td><td>Semantic agent memory (versioned)</td><td>Implicit facts, conversation history</td></tr>
+        <tr><td>Who writes it</td><td style="color:#3fb950;">Humans — deliberately</td><td style="color:#e3b341;">Agent — auto-aggregated</td><td style="color:#f78166;">Agent — automatically</td></tr>
+        <tr><td>Versionable</td><td style="color:#3fb950;">✅ Plain Git</td><td style="color:#3fb950;">✅ Cryptographic</td><td style="color:#f78166;">❌ Opaque vector store</td></tr>
+        <tr><td>Human-readable</td><td style="color:#3fb950;">✅ Plain Markdown</td><td style="color:#e3b341;">⚠️ Semantic paths</td><td style="color:#f78166;">❌ Embeddings</td></tr>
+        <tr><td>Works with GitHub Copilot</td><td style="color:#3fb950;">✅ Yes</td><td style="color:#f78166;">❌ memoir-compatible only</td><td style="color:#f78166;">❌ Closed environment</td></tr>
+        <tr><td>Infrastructure cost</td><td style="color:#3fb950;">Zero</td><td style="color:#e3b341;">memoir-ai.dev service</td><td style="color:#e3b341;">Vector DB + embeddings, always-on</td></tr>
+        <tr><td>Corruption prevention</td><td style="color:#3fb950;">Human review + Git commit</td><td style="color:#e3b341;">Rollback after the fact</td><td style="color:#f78166;">None</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ SUPPORT ══════════════════════════════ -->
+<section id="support">
+  <div class="container" style="text-align: center;">
+    <h2>Support the Manifesto</h2>
+    <p style="max-width: 580px; margin: 0 auto 40px;">
+      DDD is free, open, and will stay that way. If it saved you time, improved your workflow,
+      or sparked a conversation in your team — consider buying us a coffee. ☕
+    </p>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-bottom: 48px;">
+
+      <!-- Patreon -->
+      <a href="https://www.patreon.com/documentationfirst" target="_blank" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        background: #ff424d; color: #fff;
+        padding: 14px 28px; border-radius: 8px;
+        font-weight: 700; font-size: 15px; text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+      " onmouseover="this.style.opacity='.85';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M14.82 2.41C18.78 2.41 22 5.65 22 9.62c0 3.96-3.22 7.18-7.18 7.18-3.96 0-7.18-3.22-7.18-7.18 0-3.97 3.22-7.21 7.18-7.21M2 21.6h3.5V2.41H2V21.6z"/></svg>
+        Patreon
+      </a>
+
+      <!-- Buy Me a Coffee -->
+      <a href="https://buymeacoffee.com/documentationfirst" target="_blank" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        background: #ffdd00; color: #000;
+        padding: 14px 28px; border-radius: 8px;
+        font-weight: 700; font-size: 15px; text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+      " onmouseover="this.style.opacity='.85';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+        ☕ Buy Me a Coffee
+      </a>
+
+      <!-- Ko-fi -->
+      <a href="https://ko-fi.com/documentationfirst" target="_blank" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        background: #29abe0; color: #fff;
+        padding: 14px 28px; border-radius: 8px;
+        font-weight: 700; font-size: 15px; text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+      " onmouseover="this.style.opacity='.85';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.37-1.479 3.5-.979 1.265.312 2.535 1.789 2.035 3.768l-.034.112-.31-.553zm6.173.864c-.42.34-.88.477-1.24.373-.5-.15-1.16-.81-1.16-.81l.63-1.93c.63.63 1.42 1.13 1.77 1.37z"/></svg>
+        Ko-fi
+      </a>
+
+      <!-- GitHub Sponsors -->
+      <a href="https://github.com/sponsors/documentationfirst" target="_blank" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        background: #ea4aaa; color: #fff;
+        padding: 14px 28px; border-radius: 8px;
+        font-weight: 700; font-size: 15px; text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+      " onmouseover="this.style.opacity='.85';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.593c-.525.444-1.48 1.01-2.854 1.01-3.617 0-5.828-3.23-5.828-6.435 0-3.098 1.075-6.5 3.867-8.984C8.867 6.04 10.717 5 12 5c1.283 0 3.133 1.04 4.815 2.184 2.792 2.484 3.867 5.886 3.867 8.984 0 3.204-2.211 6.435-5.828 6.435-1.374 0-2.329-.566-2.854-1.01z"/></svg>
+        GitHub Sponsors
+      </a>
+    </div>
+
+    <p style="color: var(--muted); font-size: 14px;">
+      Every contribution helps us maintain the manifesto, grow the community, and work toward the <strong>Living Knowledge License</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ CERTIFICATION ══════════════════════════════ -->
+<section id="certification">
+  <div class="container">
+    <h2>Documentation First Certification</h2>
+    <p style="max-width: 640px;">
+      Does your organization want to demonstrate a genuine commitment to Documentation-Driven Development?
+      The <strong>Documentation First Certification</strong> is a structured audit and recognition program
+      for teams and companies that have adopted DDD practices.
+    </p>
+
+    <!-- CERTIFICATION BADGE LOGO -->
+    <div style="text-align: center; margin: 48px 0 32px;">
+      <img src="certif-badge.svg" width="220" height="220" alt="Documentation First Certified Badge" style="display:inline-block;"/>
+
+      <p style="color: var(--muted); font-size: 13px; margin-top: 12px; margin-bottom: 0;">
+        The <strong style="color: #3fb950;">AI Documentation First</strong> badge <br>
+        displayed on your GitHub repo, website, and job postings.
+      </p>
+    </div>
+
+    <div style="
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    ">
+      <div class="card">
+        <div class="icon">🔍</div>
+        <h4>Audit</h4>
+        <p>A structured review of your <code>.ai_context/</code> folder, your DDD loop, and your team's practices by a certified DDD reviewer.</p>
+      </div>
+      <div class="card">
+        <div class="icon">🏷️</div>
+        <h4>Badge</h4>
+        <p>A digital badge for your GitHub repo and documentation, with a verification link proving authenticity.</p>
+      </div>
+    </div>
+
+    <!-- CTA Certification -->
+    <div style="
+      margin-top: 40px;
+      background: #12101a;
+      border: 1px solid #3fb950;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 0 0 1px #3fb95022, 0 12px 48px -8px #3fb95044;
+      text-align: center;
+    ">
+      <div style="font-size: 36px; margin-bottom: 12px;">🏆</div>
+      <h3 style="color: #3fb950; font-size: 1.3rem; margin: 0 0 12px;">Apply for Certification</h3>
+      <a href="mailto:certification@documentationfirst.ai?subject=Documentation First Certification Request" style="
+        display: inline-flex; align-items: center; gap: 8px;
+        background: #3fb950; color: #0d1117;
+        padding: 14px 32px; border-radius: 8px;
+        font-weight: 700; font-size: 15px; text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+      " onmouseover="this.style.opacity='.85';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.opacity='1';this.style.transform='translateY(0)'">
+        ✉️ Request Certification
+      </a>
+      <p style="color: var(--muted); font-size: 13px; margin-top: 16px; margin-bottom: 0;">
+        certification@documentationfirst.ai
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ GOING FURTHER ══════════════════════════════ -->
+<section id="going-further">
+  <div class="container">
+    <h2>Going Further — The Ecosystem</h2>
+    <p style="max-width: 700px; margin-bottom: 40px;">
+      DDD does not exist in a vacuum. Below are projects, articles, and references that share its
+      concerns — context persistence, agent harnessing, memory architecture, and dev tooling.
+      Organised by the three axes that matter: <strong>Harness</strong>, <strong>Memory</strong>, <strong>Dev Environment</strong>.
+    </p>
+
+    <!-- ── HARNESS ── -->
+    <h3 style="font-size:1rem;font-weight:700;color:var(--accent3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">🔗 Harness &amp; Context Infrastructure</h3>
+    <div class="card-grid" style="margin-bottom:40px;">
+
+      <div class="card" style="border-color:var(--accent3);">
+        <div class="icon">📋</div>
+        <h4><a href="https://github.com/open-gitagent/gitagent-protocol" target="_blank" style="color:var(--accent3);text-decoration:none;">GitAgent Protocol</a></h4>
+        <p>Formalises how AI agents interact with Git repos: structured file conventions, agent manifests, task coordination through versioned files. DDD is the human layer on top of this machine-readable protocol.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent3);">
+        <div class="icon">🔒</div>
+        <h4><a href="https://github.com/duriantaco/vouch" target="_blank" style="color:var(--accent3);text-decoration:none;">Vouch</a></h4>
+        <p>"A compiler for release contracts." Takes human-owned intent (YAML) → obligation IDs → evidence (tests, SARIF, audit) → release gate: block / escalate / canary / auto_merge. DDD is the input harness. Vouch is the output gate.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent3);">
+        <div class="icon">🗂️</div>
+        <h4><a href="https://github.com/volcengine/OpenViking" target="_blank" style="color:var(--accent3);text-decoration:none;">OpenViking</a></h4>
+        <p>An open-source context database for AI Agents. Unifies management of context — memory, resources, and skills — through a file system paradigm, enabling hierarchical context delivery and self-evolving agents. Conceptually very close to <code>.ai_context/</code>.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent3);">
+        <div class="icon">🔗</div>
+        <h4><a href="https://github.com/gastownhall/beads" target="_blank" style="color:var(--accent3);text-decoration:none;">Beads</a></h4>
+        <p>Provides persistent, structured memory for coding agents. Replaces messy markdown plans with a dependency-aware graph, allowing agents to handle long-horizon tasks without losing context. The graph approach vs. DDD's flat folder — a complementary design space.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent3);">
+        <div class="icon">🐝</div>
+        <h4><a href="https://github.com/activeloopai/hivemind" target="_blank" style="color:var(--accent3);text-decoration:none;">Hivemind</a></h4>
+        <p>Captures every coding-agent interaction in your org as a structured trace, codifies repeated patterns into reusable skills, and propagates those skills to every agent on the team. The team-level equivalent of DDD's <code>skills/</code> folder — but automated and shared.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent3);">
+        <div class="icon">🏗️</div>
+        <h4><a href="https://openai.com/fr-FR/index/harness-engineering/" target="_blank" style="color:var(--accent3);text-decoration:none;">Harness Engineering — OpenAI / Codex</a></h4>
+        <p>A 5-month experiment shipping a real product with zero manually written code. 3 engineers, ~1 500 PRs, ~1M lines — all by Codex. The key lesson: <strong>replace one big <code>AGENTS.md</code> with a structured <code>docs/</code> tree as a table of contents</strong>.</p>
+      </div>
+
+    </div>
+
+    <!-- ── MEMORY ── -->
+    <h3 style="font-size:1rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">🧠 Memory &amp; Retrieval</h3>
+    <div class="card-grid" style="margin-bottom:40px;">
+
+      <div class="card" style="border-color:var(--accent2);">
+        <div class="icon">🔖</div>
+        <h4><a href="https://memoir-ai.dev" target="_blank" style="color:var(--accent2);text-decoration:none;">Memoir</a></h4>
+        <p>"Git for AI Memory." Replaces opaque vector databases with versioned, cryptographically secure semantic memory: branch, commit, merge, rollback. Their diagnosis — <em>"AI memory is a global variable anti-pattern"</em> — is our thesis, word for word.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent2);">
+        <div class="icon">🏛️</div>
+        <h4><a href="https://github.com/MemPalace/mempalace" target="_blank" style="color:var(--accent2);text-decoration:none;">MemPalace</a></h4>
+        <p>Stores conversation history as <strong>verbatim text</strong> and retrieves with semantic search. No summarisation, no paraphrasing. Structured like a palace: people and projects become wings, topics become rooms, content lives in drawers. Searches can be scoped, not run against a flat corpus.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent2);">
+        <div class="icon">🕸️</div>
+        <h4><a href="https://github.com/1jehuang/jcode" target="_blank" style="color:var(--accent2);text-decoration:none;">Jcode</a></h4>
+        <p>Embeds each conversation turn as a semantic vector, then queries a memory graph via cosine similarity to find related entries. Optionally uses a memory sideagent to verify relevance before injecting into the conversation. A fine-grained take on retrieval-augmented context.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent2);">
+        <div class="icon">📖</div>
+        <h4><a href="https://medium.com/@coyle_41098/rag-vs-cag-the-architects-guide-to-llm-memory-47b4b77eaaed" target="_blank" style="color:var(--accent2);text-decoration:none;">RAG vs CAG — The Architect's Guide to LLM Memory</a></h4>
+        <p>A clear breakdown of Retrieval-Augmented Generation vs. Context-Augmented Generation for LLM memory architecture. Essential reading for understanding where DDD's explicit, versioned context layer sits in the broader memory design space.</p>
+      </div>
+
+    </div>
+
+    <!-- ── DEV ENVIRONMENT ── -->
+    <h3 style="font-size:1rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">🖥️ Dev Environment &amp; Tooling</h3>
+    <div class="card-grid" style="margin-bottom:40px;">
+
+      <div class="card" style="border-color:var(--accent);">
+        <div class="icon">📊</div>
+        <h4><a href="https://github.com/microsoft/AI-Engineering-Coach" target="_blank" style="color:var(--accent);text-decoration:none;">AI Engineering Coach — Microsoft</a></h4>
+        <p>"Analyse your AI coding assistant usage — any harness, one dashboard." Observability for AI-assisted development: track what your agents actually do, where they help, and where context breaks down. Pairs naturally with a DDD project as the measurement layer.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent);">
+        <div class="icon">📄</div>
+        <h4><a href="https://code.claude.com/docs/en/best-practices" target="_blank" style="color:var(--accent);text-decoration:none;">Claude Code — Best Practices</a></h4>
+        <p>Anthropic's official best practices for Claude Code. Covers how to structure instructions, manage context, and guide the agent effectively. Essential reading — and a natural counterpart to your <code>CONTRACT.md</code> and <code>skills/</code> files.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent);">
+        <div class="icon">📁</div>
+        <h4><a href="https://code.claude.com/docs/en/claude-directory" target="_blank" style="color:var(--accent);text-decoration:none;">Claude Code — The <code>CLAUDE.md</code> Directory</a></h4>
+        <p>Anthropic's specification for the <code>CLAUDE.md</code> file — the project-level instruction file Claude reads at session start. Functionally equivalent to DDD's <code>skills/permanent-*.md</code>. If you use Claude Code, your DDD context maps directly onto this.</p>
+      </div>
+
+      <div class="card" style="border-color:var(--accent);">
+        <div class="icon">⚠️</div>
+        <h4><a href="https://medium.com/@rentierdigital/markdown-was-a-mistake-for-agent-output-a-claude-code-engineer-just-proved-it-454b78971cc4" target="_blank" style="color:var(--accent);text-decoration:none;">Markdown Was a Mistake for Agent Output</a></h4>
+        <p>Argues that Markdown as AI <em>output</em> format is unstructured and unparseable. DDD's position is the inverse: Markdown as human <em>input</em> and versioned context — not agent output — is exactly the right tool. The distinction matters.</p>
+      </div>
+
+    </div>
+
+    <!-- ── FOUNDATIONS ── -->
+    <h3 style="font-size:1rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px;">📚 Foundations &amp; Research</h3>
+    <div class="card-grid" style="margin-bottom:16px;">
+
+      <div class="card">
+        <div class="icon">📝</div>
+        <h4><a href="https://gist.github.com/zsup/9434452" target="_blank" style="color:var(--accent);text-decoration:none;">zsup — Documentation-Driven Development (2014)</a></h4>
+        <p>The original DDD definition: <em>"Write the documentation before writing the code. If you can't explain it clearly, you don't understand it yet."</em> DDD v2 builds on this foundation for the AI era.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🔬</div>
+        <h4>Microsoft Research — DELEGATE-52 (2026)</h4>
+        <p>Laban, Schnabel, Neville — <em>"LLMs Corrupt Your Documents When You Delegate."</em> 19 models, 52 documents, 20 interactions each. Top models: ~25% corruption. Average: ~50%. No plateau. The scientific foundation for DDD's human-review gate. <a href="https://cekrem.github.io/posts/llms-corrupt-your-documents/" target="_blank" style="color:var(--accent);">Commentary →</a></p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🧬</div>
+        <h4>Google DeepMind — Intelligent Delegation in Multi-Agent Systems (2026)</h4>
+        <p>Tomašev, Franklin, Osindero — formal systems for authority, accountability, and verification in AI delegation. Their five requirements for safe AI delegation are implemented by DDD using plain Git primitives.</p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🕹️</div>
+        <h4><a href="https://www.reddit.com/r/MUD/comments/1sexcyd/legends_of_future_past_1992_is_back_online/" target="_blank" style="color:var(--accent);text-decoration:none;">Legends of the Future Past — Reddit (2026)</a></h4>
+        <p>A MUD from 1992 rebuilt from its data files alone — the original server code was gone but the structured world files survived. The real-world proof of the DDD Reconstruction Guarantee.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
+<footer>
+  <p>
+    Documentation-Driven Development — v1.0 — April 2026<br>
+    Published under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a> ·
+    <a href="https://github.com/documentationfirst/manifesto" target="_blank">Fork on GitHub</a>
+  </p>
+</footer>
+
+<!-- ══════════════════════════════ STICKY TOC ══════════════════════════════ -->
+<button id="toc-fab" aria-label="Open table of contents" aria-expanded="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#0a1a00" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+    <circle cx="3" cy="6"  r="1.5" fill="#0a1a00" stroke="none"/>
+    <circle cx="3" cy="12" r="1.5" fill="#0a1a00" stroke="none"/>
+    <circle cx="3" cy="18" r="1.5" fill="#0a1a00" stroke="none"/>
+  </svg>
+  <span id="toc-fab-tooltip">Table of Contents</span>
+</button>
+
+<div id="toc-backdrop" aria-hidden="true"></div>
+
+<nav id="toc-sidebar" role="dialog" aria-label="Table of Contents" aria-modal="true">
+  <div class="toc-sidebar-header">
+    <h3>Table of Contents</h3>
+    <button id="toc-close" aria-label="Close table of contents">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="toc-sidebar-list">
+    <a href="#problem"           onclick="closeTocSidebar()"><span class="toc-num">①</span> The Problem</a>
+    <a href="#documental-engineering" onclick="closeTocSidebar()"><span class="toc-num">②</span> Documental Engineering &amp; 3S Rule</a>
+    <a href="#loop"              onclick="closeTocSidebar()"><span class="toc-num">③</span> The DDD Loop</a>
+    <a href="#file-types"        onclick="closeTocSidebar()"><span class="toc-num">④</span> The DDD Document Types</a>
+    <a href="#preview-test"      onclick="closeTocSidebar()"><span class="toc-num">⑤</span> Preview &amp; Test Artefacts</a>
+    <a href="#skills"            onclick="closeTocSidebar()"><span class="toc-num">⑥</span> The Folders</a>
+    <a href="#harness"           onclick="closeTocSidebar()"><span class="toc-num">⑦</span> Harness &amp; Documental Engineering</a>
+    <a href="#reconstruction"    onclick="closeTocSidebar()"><span class="toc-num">⑧</span> The Reconstruction Guarantee</a>
+    <a href="#scientific-proof"  onclick="closeTocSidebar()"><span class="toc-num">⑨</span> Scientific Proof — Two Labs, One Thesis</a>
+    <a href="#gitagent"          onclick="closeTocSidebar()"><span class="toc-num">⑩</span> GitAgent Protocol &amp; Interoperability</a>
+    <a href="#superpowers"       onclick="closeTocSidebar()"><span class="toc-num">⑪</span> Four Superpowers</a>
+    <a href="#is-is-not"         onclick="closeTocSidebar()"><span class="toc-num">⑫</span> DDD Is / Is Not</a>
+    <a href="#knowledge-capital" onclick="closeTocSidebar()"><span class="toc-num">⑬</span> DDD as Knowledge Capital</a>
+    <a href="#get-started"       onclick="closeTocSidebar()"><span class="toc-num">⑭</span> Getting Started</a>
+    <a href="#ide-first"         onclick="closeTocSidebar()"><span class="toc-num">⑮</span> The IDE-First Ecosystem</a>
+    <a href="#mcp-memory"        onclick="closeTocSidebar()"><span class="toc-num">⑯</span> MCP &amp; Contextual Memory</a>
+    <a href="#support"           onclick="closeTocSidebar()"><span class="toc-num">⑰</span> Support &amp; Certification</a>
+    <a href="#going-further"     onclick="closeTocSidebar()"><span class="toc-num">⑱</span> Going Further — The Ecosystem</a>
+  </div>
+</nav>
+
+<script>
+  (function() {
+    const fab      = document.getElementById('toc-fab');
+    const sidebar  = document.getElementById('toc-sidebar');
+    const backdrop = document.getElementById('toc-backdrop');
+    const closeBtn = document.getElementById('toc-close');
+    const tocSection = document.getElementById('toc-section');
+
+    // Show FAB only when TOC section has scrolled out of view
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          fab.classList.remove('visible');
+        } else {
+          fab.classList.add('visible');
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(tocSection);
+
+    function openTocSidebar() {
+      sidebar.classList.add('open');
+      backdrop.classList.add('visible');
+      fab.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => closeBtn.focus(), 50);
+    }
+
+    window.closeTocSidebar = function() {
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('visible');
+      fab.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    fab.addEventListener('click', openTocSidebar);
+    closeBtn.addEventListener('click', window.closeTocSidebar);
+    backdrop.addEventListener('click', window.closeTocSidebar);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+        window.closeTocSidebar();
+      }
+    });
+
+    // Focus trap
+    sidebar.addEventListener('keydown', function(e) {
+      if (e.key !== 'Tab') return;
+      const focusable = [...sidebar.querySelectorAll('button, a[href]')];
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
